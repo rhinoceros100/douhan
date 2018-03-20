@@ -1,0 +1,44 @@
+<component name="libraryTable">
+  <library name="GOPATH &lt;douhan&gt;">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../majiang" />
+      <root url="file://$PROJECT_DIR$/../dazhadan" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../douniu" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/zhadan_game_svr" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/protobuf" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/comm" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/test" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/zhadan_account_svr" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/github.com" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/google.golang.org" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/golang.org" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/zhadan_access_svr" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/git.apache.org" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+      <root url="file://$PROJECT_DIR$/../peng_hu_zi" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../majiang" />
+      <root url="file://$PROJECT_DIR$/../dazhadan" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../douniu" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/zhadan_game_svr" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/protobuf" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/comm" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/test" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/zhadan_account_svr" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/github.com" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/google.golang.org" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/golang.org" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/zhadan_access_svr" />
+      <root url="file://$PROJECT_DIR$/../../../xianyu/trunk/svr/dazhadan/go_svr/src/git.apache.org" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+      <root url="file://$PROJECT_DIR$/../peng_hu_zi" />
+    </SOURCES>
+    <excluded>
+      <root url="file://$PROJECT_DIR$" />
+    </excluded>
+  </library>
+</component>
