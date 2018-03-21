@@ -29,9 +29,7 @@ type Player struct {
 	prize		        int32                   //获得奖励次数
 
 	winNum		        int32                   //总共赢的次数
-	shuangjiNum		int32                   //总共双基的次数
-	paSuccNum		int32                   //打独成功的次数
-	totalPrize		int32                   //获得的总奖金数
+	springNum		int32                   //春天的数量
 
 	playingCards 	*card.PlayingCards	//玩家手上的牌
 	observers	 []PlayerObserver
@@ -54,9 +52,7 @@ func NewPlayer(id uint64) *Player {
 		prizeCoin: 	0,
 		coin:      	0,
 		winNum:      	0,
-		shuangjiNum:    0,
-		paSuccNum:      0,
-		totalPrize:     0,
+		springNum:      0,
 
 		playingCards:	card.NewPlayingCards(),
 		observers:	make([]PlayerObserver, 0),
@@ -158,31 +154,13 @@ func (player *Player) IncWinNum() int32 {
 	return player.winNum
 }
 
-func (player *Player) GetShuangjiNum() int32 {
-	return player.shuangjiNum
+func (player *Player) GetSpringNum() int32 {
+	return player.springNum
 }
 
-func (player *Player) IncShuangjiNum() int32 {
-	player.shuangjiNum++
-	return player.shuangjiNum
-}
-
-func (player *Player) GetPaSuccNum() int32 {
-	return player.paSuccNum
-}
-
-func (player *Player) IncPaSuccNum() int32 {
-	player.paSuccNum++
-	return player.paSuccNum
-}
-
-func (player *Player) GetTotalPrize() int32 {
-	return player.totalPrize
-}
-
-func (player *Player) AddTotalPrize(add int32) int32 {
-	player.totalPrize += add
-	return player.totalPrize
+func (player *Player) IncSpringNum() int32 {
+	player.springNum++
+	return player.springNum
 }
 
 func (player *Player) GetIsPlayAlone() bool {
@@ -292,17 +270,23 @@ func (player *Player) OperateDropCard(cards []*card.Card) bool {
 		whatGroup: cards,
 	}
 
+	player_room := player.room
 	cards_num := player.playingCards.CardsInHand.Len()
 	is_last_cards := false
-	if cards_num == len(cards) {
+	if cards_num == len(cards) && player_room.opMaster == player {
 		is_last_cards = true
 	}
+
+	to_cover_weight := 0
+	if player_room.GetCardsType() == card.CardsType_STRAIGHT {
+		to_cover_weight = player_room.GetWeight() + 1
+	}
 	drop_cards := card.CreateNewCards(cards)
-	data.cardsType, data.planeNum, data.weight = card.GetCardsType(drop_cards, is_last_cards, 0)
-	can_cover := player.room.canCover(data.cardsType, data.planeNum, data.weight)
+	data.cardsType, data.planeNum, data.weight = card.GetCardsType(drop_cards, is_last_cards, to_cover_weight)
+	can_cover := player_room.canCover(data.cardsType, data.planeNum, data.weight)
 	log.Debug("******can_cover:", can_cover)
 	op := NewOperateDrop(player, data)
-	player.room.PlayerOperate(op)
+	player_room.PlayerOperate(op)
 	return player.waitResult(op.ResultCh)
 }
 
@@ -456,7 +440,6 @@ func (player *Player) OnDrop(op *Operate) {
 		}*/
 		msgData := &DropMsgData{
 			WhatGroup:drop_data.whatGroup,
-			TableScore:player.room.GetTableScore(),
 			CardsType:drop_data.cardsType,
 			PlaneNum:drop_data.planeNum,
 			Weight:drop_data.weight,
@@ -517,9 +500,21 @@ func (player *Player) OnEndPlayGame() {
 	player.notifyObserver(NewGameEndMsg(player, data))
 }
 
-func (player *Player) GetTailCard(num int) []*card.Card {
+func (player *Player) OnDispatchCard(msg *Message) {
+	player.notifyObserver(msg)
+}
+
+func (player *Player) GetTailCard() []*card.Card {
 	//log.Debug(time.Now().Unix(), player, "GetTailCard", num)
-	return player.playingCards.Tail(num)
+	return player.playingCards.RandomTail()
+}
+
+func (player *Player) Get2JokerNum() (num2, num_joker int32) {
+	return player.playingCards.Get2JokerNum()
+}
+
+func (player *Player) GetCardNumByWeight(num int) (int32) {
+	return player.playingCards.GetCardNumByWeight(num)
 }
 
 func (player *Player) GetLeftCardNum() (int) {
@@ -527,7 +522,7 @@ func (player *Player) GetLeftCardNum() (int) {
 }
 
 func (player *Player) Drop(cards []*card.Card) bool {
-	log.Debug(time.Now().Unix(), player, "Drop card :", cards)
+	log.Debug("==========", time.Now().Unix(), player, "Drop card :", cards)
 	return player.playingCards.DropCards(cards)
 }
 

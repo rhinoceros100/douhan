@@ -124,8 +124,11 @@ func IsSameCardType(drop_cards []*Card) (bool) {
 	return true
 }
 
-//是否为顺子，算入赖子
-//返回是否为顺子，及顺子权重
+/*是否为顺子，算入赖子
+* 返回是否为顺子，及顺子权重
+* param weights:要校验的牌的权重
+* param check_weight:要组成的顺子的权重
+*/
 func IsStraight(weights []int, check_weight int) (is_straight bool, straight_weight int) {
 	weight_len := len(weights)
 	is_straight = false

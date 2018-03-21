@@ -3,7 +3,6 @@ package card
 import (
 	"sort"
 	"douhan/util"
-	"douhan/log"
 )
 
 type Cards struct {
@@ -147,7 +146,7 @@ func (cards *Cards) TakeAwayGroup(drop_cards []*Card) bool {
 			}
 		}
 	}
-	log.Debug("left==", cards)
+	//log.Debug("left==", cards)
 	return true
 }
 
@@ -256,4 +255,28 @@ func (cards *Cards) HasCard(card *Card) bool{
 		}
 	}
 	return false
+}
+
+func (cards *Cards) Get2JokerNum() (num2, num_joker int32) {
+	num2, num_joker = 0, 0
+	for _, card := range cards.Data{
+		if card.CardNo == 2 {
+			num2++
+		}
+		if card.CardNo == 14 {
+			num_joker++
+		}
+	}
+	return
+}
+
+
+func (cards *Cards) GetCardNumByWeight(card_weight int) (num int32) {
+	num = 0
+	for _, card := range cards.Data{
+		if card.Weight == int(card_weight) {
+			num++
+		}
+	}
+	return
 }

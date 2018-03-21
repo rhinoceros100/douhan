@@ -9,7 +9,7 @@ import (
 
 func TestGetCanDrop(t *testing.T) {
 	conf := NewRoomConfig()
-	conf.Init(1, 2, 1)
+	conf.Init()
 	room := NewRoom(util.UniqueId(), conf)
 
 	player1 := NewPlayer(1)

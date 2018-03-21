@@ -49,7 +49,7 @@ func (ob *PlayerObserver) OnMsg(player *playing.Player, msg *playing.Message) {
 		if close_data, ok := msg.Data.(*playing.RoomClosedMsgData); ok {
 			log.Debug(log_time, player, "OnMsg MsgRoomClosed")
 			for _, data := range close_data.Summaries	{
-				log.Debug(data.P, "Win:", data.WinNum, "Shuangji:", data.ShuangjiNum, "PaSucc:", data.PaSuccNum, "TotalPrize:", data.TotalPrize,
+				log.Debug(data.P, "Win:", data.WinNum, "SpringNum:", data.SpringNum,
 					"TotalCoin:", data.TotalCoin, "IsWin:", data.IsWinner, "IsMostWin:", data.IsMostWinner, "IsMostLos:", data.IsMostLoser)
 			}
 		}
@@ -59,7 +59,7 @@ func (ob *PlayerObserver) OnMsg(player *playing.Player, msg *playing.Message) {
 		}
 	case playing.MsgStartPlay:
 		if sp_data, ok := msg.Data.(*playing.StartPlayMsgData); ok {
-			log.Debug(log_time, player, "OnMsg MsgStartPlay, assist:", sp_data.Assist, ",master:", sp_data.Master)
+			log.Debug(log_time, player, "OnMsg MsgStartPlay, master:", sp_data.Master)
 		}
 	case playing.MsgSwitchOperator:
 		if sp_data, ok := msg.Data.(*playing.SwitchOperatorMsgData); ok {
@@ -67,7 +67,7 @@ func (ob *PlayerObserver) OnMsg(player *playing.Player, msg *playing.Message) {
 		}
 	case playing.MsgDrop:
 		if drop_data, ok := msg.Data.(*playing.DropMsgData); ok {
-			log.Debug(log_time, player, "MsgDrop", msg.Owner, "score", drop_data.TableScore, "CardsType", drop_data.CardsType, "Weight", drop_data.Weight, "cards", drop_data.WhatGroup)
+			log.Debug(log_time, player, "MsgDrop", msg.Owner, "CardsType", drop_data.CardsType, "Weight", drop_data.Weight, "cards", drop_data.WhatGroup)
 		}
 	case playing.MsgDispatchCard:
 		if _, ok := msg.Data.(*playing.DispatchCardMsgData); ok {
@@ -75,14 +75,14 @@ func (ob *PlayerObserver) OnMsg(player *playing.Player, msg *playing.Message) {
 		}
 	case playing.MsgPass:
 		if _, ok := msg.Data.(*playing.PassMsgData); ok {
-			//log.Debug(log_time, player, "OnMsg MsgPass", msg.Owner)
+			log.Debug(log_time, player, "OnMsg MsgPass", msg.Owner)
 		}
 	case playing.MsgSummary:
 		if summary_data, ok := msg.Data.(*playing.SummaryMsgData); ok {
-			log.Debug(log_time, player, "OnMsg MsgSummary, summary_data:", summary_data.InfoType)
+			log.Debug(log_time, player, "OnMsg MsgSummary, summary_data:", summary_data.InfoType, "Multiple:", summary_data.Multiple)
 			for _, score_data := range summary_data.Scores	{
-				log.Debug(score_data.P, "Rank:", score_data.Rank, "Score:", score_data.Score, "IsWin:", score_data.IsWin,
-					"Prize:", score_data.Prize, "PrizeCoin:", score_data.PrizeCoin, "Coin:", score_data.Coin, "TotalCoin:", score_data.TotalCoin)
+				log.Debug(score_data.P, "Rank:", score_data.Rank, "IsWin:", score_data.IsWin, "LeftCardNum:", score_data.LeftCardNum,
+					"IsSpring:", score_data.IsSpring, "Coin:", score_data.Coin, "TotalCoin:", score_data.TotalCoin)
 			}
 		}
 	}
@@ -93,7 +93,7 @@ func main() {
 
 	//init room
 	conf := playing.NewRoomConfig()
-	conf.Init(1, 2, 1)
+	conf.Init()
 	room := playing.NewRoom(util.UniqueId(), conf)
 	room.Start()
 
@@ -101,6 +101,8 @@ func main() {
 		playing.NewPlayer(0),
 		playing.NewPlayer(1),
 		playing.NewPlayer(2),
+
+		playing.NewPlayer(3),
 	}
 
 	for _, robot := range robots {
@@ -108,16 +110,19 @@ func main() {
 		robot.AddObserver(&PlayerObserver{})
 	}
 
-	curPlayer := playing.NewPlayer(3)
+	curPlayer := playing.NewPlayer(4)
 	curPlayer.AddObserver(&PlayerObserver{})
 
 	go func() {
 		time.Sleep(time.Second * 1)
 		robots[0].OperateDoReady()
-		time.Sleep(time.Second * 2)
+		time.Sleep(time.Second * 1)
 		robots[1].OperateDoReady()
-		time.Sleep(time.Second * 2)
+		time.Sleep(time.Second * 1)
 		robots[2].OperateDoReady()
+
+		time.Sleep(time.Second * 1)
+		robots[3].OperateDoReady()
 	}()
 
 	reader := bufio.NewReader(os.Stdin)

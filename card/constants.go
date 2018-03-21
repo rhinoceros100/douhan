@@ -22,7 +22,5 @@ const (
 
 const (
 	InfoType_Normal		int32 = iota		//普通结果
-	InfoType_Shuangji				//双基
-	InfoType_PlayAloneSucc				//打独成功
-	InfoType_PlayAloneFail				//打独失败
+	InfoType_Tie					//平局
 )

@@ -86,7 +86,6 @@ func NewGetInitCardsMsg(owner *Player, data *GetInitCardsMsgData) *Message {
 //开始打牌的消息
 type StartPlayMsgData struct {
 	Master *Player
-	Assist *Player
 }
 func NewStartPlayMsg(owner *Player, data *StartPlayMsgData) *Message {
 	return newMsg(MsgStartPlay, owner, data)
@@ -104,6 +103,8 @@ func NewSwitchOperatorMsg(owner *Player, data *SwitchOperatorMsgData) *Message {
 
 //玩家获得牌的消息
 type DispatchCardMsgData struct {
+	DispatchedPlayer	*Player
+	DispatchedCard		*card.Card
 }
 func NewDispatchCardMsg(owner *Player, data *DispatchCardMsgData) *Message {
 	return newMsg(MsgDispatchCard, owner, data)
@@ -112,7 +113,6 @@ func NewDispatchCardMsg(owner *Player, data *DispatchCardMsgData) *Message {
 //出牌的消息
 type DropMsgData struct {
 	WhatGroup []*card.Card
-	TableScore int32
 	CardsType int
 	PlaneNum int
 	Weight int
@@ -131,17 +131,17 @@ type PlayerSummaryData struct {
 	P *Player
 	Rank int32
 	Coin int32
-	Score int32
-	Prize int32
 	TotalCoin int32
-	PrizeCoin int32
+	LeftCardNum int32
 	IsWin bool
+	IsSpring bool
 }
 
 //结算消息
 type SummaryMsgData struct {
 	Scores []*PlayerSummaryData
 	InfoType int32
+	Multiple int32
 }
 func NewSummaryMsg(owner *Player, data *SummaryMsgData) *Message {
 	return newMsg(MsgSummary, owner, data)
@@ -183,9 +183,7 @@ func NewGameEndMsg(owner *Player, data *GameEndMsgData) *Message{
 type TotalSummaryData struct {
 	P *Player
 	WinNum int32
-	ShuangjiNum int32
-	PaSuccNum int32
-	TotalPrize int32
+	SpringNum int32
 	TotalCoin int32
 
 	IsWinner bool
