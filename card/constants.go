@@ -16,8 +16,8 @@ const (
 	CardsType_PAIR			           	//对子
 	CardsType_BOMB3		= 20      		//三炸
 	CardsType_BOMB4		= 23           		//四炸
-	CardsType_BOMB5		= 24	           	//五炸
-	CardsType_BOMB6		= 25        		//六炸
+	CardsType_BOMB5		= 25	           	//五炸
+	CardsType_BOMB6		= 27        		//六炸
 )
 
 const (
